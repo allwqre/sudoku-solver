@@ -126,3 +126,7 @@ function verifySolution(grid) {
 
 if (solution && verifySolution(solution)) console.log("Solution good.");
 else console.log("Solution bad.");
+
+const solutionString = solution.map((row) => row.join("")).join("\n");
+
+writeFileSync(`solution_${fileName}`, solutionString);
