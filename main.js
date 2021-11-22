@@ -96,3 +96,33 @@ function solveGrid(grid) {
 
 const solution = solveGrid(Grid);
 
+function verifySolution(grid) {
+  const verifyRow = (row) =>
+    grid[row].reduce((prev, curr) => prev + curr) === 45;
+  const verifyCol = (col) => {
+    let acc = 0;
+    for (let i = 0; i < grid.length; i++) acc = acc + grid[i][col];
+    return acc === 45;
+  };
+  const verifyBox = (box) => {
+    const boxRowStart = Math.floor((box * 3) % 9); // 0, 3, 6, 0, 3, 6, 0, 3, 6, ...
+    const boxColStart = Math.floor((box * 3) / 9) * 3; // 0, 0, 0, 3, 3, 3, 6, 6, 6, ...
+
+    let acc = 0;
+    for (let i = 0; i < 9; i++) {
+      const colToAdd = boxRowStart + Math.floor(i / 3);
+      const rowToAdd = boxColStart + (i % 3);
+
+      acc = acc + grid[rowToAdd][colToAdd];
+    }
+    return acc === 45;
+  };
+
+  for (let i = 0; i < 9; i++) {
+    if (!verifyRow(i) || !verifyCol(i) || !verifyBox(i)) return false;
+  }
+  return true;
+}
+
+if (solution && verifySolution(solution)) console.log("Solution good.");
+else console.log("Solution bad.");
